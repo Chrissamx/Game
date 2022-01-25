@@ -159,7 +159,9 @@ end
 
 end
 
-
+def exitprog
+  exit
+end
 
 
 get '/' do
@@ -189,7 +191,7 @@ get '/play' do
 end
 
 get '/exit' do
-  exit!
+  exitprog
 end
  
 __END__
