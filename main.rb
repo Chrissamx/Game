@@ -25,8 +25,10 @@ $start = 'yes'
 $counter = 0
 $row = 0
 $coll = 0
-$itemsfactor = 4.5
+$itemsfactor = 4.2
 $mostitems = 0
+$range = 10
+$rangestart = 1
 
   Spreadsheet.client_encoding = 'UTF-8'
   book = Spreadsheet.open 'instr.xls'
@@ -102,6 +104,7 @@ def checkclothing
     end
    end
  end
+ $itemsfactor = $itemsfactor - 0.1
 end
 
 
@@ -137,12 +140,17 @@ end
 
 def randominstr
   loop do
-  $randinstr = rand(1..90)
+  $randinstr = rand($rangestart..$range)
   $instr = $instructions[$randinstr][10]
   if $allplayers [$randplayer1][1] == 'F'
     if $instructions[$randinstr][5] != 'M'
      if $instructions[$randinstr][9] == 'Y'
          $instructions[$randinstr][9] = "X"
+        
+         if $range < 90
+         $range = $range + 2
+         $rangestart = $rangestart + 1
+         end
          break
      end
     end
@@ -151,6 +159,11 @@ def randominstr
     if $instructions[$randinstr][5] != 'F'
      if $instructions[$randinstr][9] == 'Y'
          $instructions[$randinstr][9] = "X"
+        
+         if $range < 90
+         $range = $range + 2
+         $rangestart = $rangestart + 1
+         end
          break
      end
     end
