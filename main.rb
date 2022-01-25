@@ -160,7 +160,7 @@ end
 end
 
 def exitprog
-  exit
+  exit!
 end
 
 
