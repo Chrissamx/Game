@@ -37,7 +37,7 @@ $rangestart = 1
     loop do
       sheet.rows[$counter][9] = "Y"
       $counter = $counter + 1
-      if $counter > 90
+      if $counter > 88
         book.write 'instr.xls'
         $start = 'No'
         $counter = 0
@@ -173,7 +173,7 @@ end
 end
 
 def exitprog
-  exit!
+  load "main.rb"
 end
 
 
