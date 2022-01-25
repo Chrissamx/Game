@@ -187,6 +187,10 @@ end
 get '/play' do 
   erb :play
 end
+
+get '/exit' do
+  exit!
+end
  
 __END__
 
@@ -194,21 +198,19 @@ __END__
 <!doctype html>
 <html lang="en">
 <head>
-  <title>Songs By Sinatra</title>
+  <title>Ice Breaker</title>
   <meta charset="utf-8">
 </head>
 <body>
   <header>
-    <h1>Ice Breaker</h1>
+  <h1><p align="center">Ice Breaker</h1>
     <nav>
-      <ul>
-        <li><a href="/game" title="Game">game</a></li>
-       
+      <h1><p align="center"><a href="/game" title="Game" align="center">game</a></p></h1>
         </ul>
         </nav>
       </header>
       <section>
-        <p>Welcome to this website</p>
+      <h1><p align="center"> Welcome to this website</p></h1>
       </section>
     </body>
     </html>     

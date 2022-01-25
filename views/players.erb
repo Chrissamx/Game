@@ -7,47 +7,34 @@
     <title>Document</title>
 </head>
 <body>
-<%= $nplayers%> number of players entered <p></p>
-<%= $allplayers [0][0] %> Name <p></p>
-<%= $allplayers [0][1] %> Sex <p></p>
-<%= $allplayers [0][2] %> Oreientation <p></p>
-<%= $allplayers [0][3] %> Clothing items <p></p>
-<%= $allplayers [1][0] %> 
-<%= $allplayers [1][1] %> 
-<%= $allplayers [1][2] %> 
-<%= $allplayers [1][3] %></p><p>
-<%= $allplayers [2][0] %> 
-<%= $allplayers [2][1] %> 
-<%= $allplayers [2][2] %> 
-<%= $allplayers [2][3] %></p>
 
 
 <form action="/game" method='post'>
 
-   Players
-   <label for="name">Name (4 to 8 characters must be unique):</label>
+   <h1>
+   <p align="center"><label for="name">Players Name (4 to 8 characters must be unique):</label></h1>
 <p>
-   <input type="text" id="name" name="name" size="10">
+<p align="center"><input type="text" id="name" name="name" size="10">
 </p>
-    <label for="Sex">Sex (M or F):</label>
+<label for="Sex"><h1><p align="center">Sex (M or F):</h1></label>
 <p>
-<select name="Sex" id="Sex">
+<p align="center"><select name="Sex" id="Sex">
 <option value="M">Male</option>
 <option value="F">Female</option>
 </select>
 </p>
-    <label for="Preference">Preference</label>
+    <h1><p align="center"><label for="Preference">Preference</label></h1>
 <p>
-<select name="Preference" id="Preference">
+<p align="center"><select name="Preference" id="Preference">
 <option value="B">Bi</option>
 <option value="S">Straight</option>
 </select>
 </p>
-<label for="Clothing">Clothing(Number of items clothing. Maximum six):</label>
+<h1><p align="center"><label for="Clothing">Clothing(Number of items clothing. Maximum six):</label></h1>
 <p>
-<select name="Clothing" id="Clothing">
+<p align="center"><select name="Clothing" id="Clothing">
 <option value="1">One</option>
-<option value="2">Tow</option>
+<option value="2">Two</option>
 <option value="3">Three</option>
 <option value="4">Four</option>
 <option value="5">Five</option>
@@ -55,7 +42,7 @@
 </select>
 </p><p>
    
-   <button type='submit'>add player</button><p></p></p>
+<p align="center"><button type='submit'>add player</button><p></p></p>
    <p> </p>
    
     </form>
