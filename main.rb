@@ -70,9 +70,9 @@ end
 def addplayer
   $allplayers[$nplayers][0],$allplayers[$nplayers][1],$allplayers[$nplayers][2],$allplayers[$nplayers][3] = 
   params[:name],params[:Sex],params[:Preference],params[:Clothing].to_i
-  $itemsstr = $allplayers[$nplayers][3]
-  $items = $items + $itemsstr.to_i
-  $nplayers =$nplayers + 1 
+  $itemsstr   = $allplayers[$nplayers][3]
+  $items      = $items + $itemsstr.to_i
+  $nplayers   = $nplayers + 1 
   $itemfactor = $items / $nplayers
   redirect '/game'
 end
@@ -81,25 +81,26 @@ def getrandom
   randomplayer1  
   randominstr
   randomplayer2
+  randomplayer3
   checkclothing
   redirect '/play'
 end
 
 def checkclothing
-  $mostitems = 0
-  loopcount = 0
-  count = 0
+  $mostitems  = 0
+  loopcount   = 0
+  count       = 0
   playercount = 0
-  player = ' ' 
+  player      = ' ' 
 
  if $items >0
    if ($itemsfactor * $nplayers) < $items
     loop do
-      count = rand(0...$nplayers)
-      loopcount = loopcount + 1
-      if $mostitems < $allplayers[count][3]
-         $mostitems = $allplayers[count][3]
-         player =     $allplayers[count][0]
+      count          = rand(0...$nplayers)
+      loopcount      = loopcount + 1
+      if $mostitems  < $allplayers[count][3]
+         $mostitems  = $allplayers[count][3]
+         player      = $allplayers[count][0]
          playercount = count
        end
         if loopcount > 50
@@ -116,9 +117,9 @@ end
 
 def randomplayer1
   loop do
-   $randplayer1 = rand(0...$nplayers)
+   $randplayer1     = rand(0...$nplayers)
    if $randplayer1 != $lastplayer
-    $lastplayer = $randplayer1
+    $lastplayer     = $randplayer1
      break
    end
   end
@@ -151,7 +152,17 @@ def randomplayer2
   end 
 end
 
-
+def randomplayer3
+  loop do
+    $randplayer3     = rand(0...$nplayers)
+    if $randplayer3  != $randplayer1
+     if $randplayer3 != $randomplayer2
+       break
+     end
+   end
+ end
+end
+  
 def randominstr
   loop do
   $randinstr = rand($rangestart..$range)
@@ -161,8 +172,8 @@ def randominstr
      if $instructions[$randinstr][9] == 'Y'
          $instructions[$randinstr][9] = "X"
          if $range < 90
-         $range = $range + 1
-         $rangestart = $rangestart 
+          $range = $range + 1
+          $rangestart = $rangestart 
          end
          break
      end
