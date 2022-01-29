@@ -1,42 +1,83 @@
 require 'sinatra'
+
 require 'spreadsheet'
 
+
+
 $allplayers =Array.new(20) {Array.new(4)}
+
 $instructions =Array.new(100) {Array.new(11)}
+
 $nplayers = 0
+
 $items = 0
+
 $clothing = 0
+
 $fstr  = 0
+
 $fbi   = 0
+
 $mstr  = 0
+
 $mbi   = 0
+
 $fplay = 0
+
 $mplay = 0
+
 $randplayer2 = 0
+
 $randplayer1 = 0
+
 $randplayer3 = 0
+
 $lastplayer = 99
+
 $randinstr = 0
+
 $instr = " "
+
 $itemsstr = " "
+
 $fplays = " "
+
 $randname =" "
+
 $goodplayer = false
+
 $start = 'yes'
+
 $counter = 0
+
 $row = 0
+
 $coll = 0
-$itemsfactor = 4
+
+$itemsfactor = 4.000
+
 $mostitems = 0
+
 $range = 10
+
 $rangestart = 1
+
 $space = " "
+
 $numbercheck = "  "
+
 $nmales = 0
+
 $fmales = 0
+
 $check3 = 'no'
+
 $instr3 = ' '
+
 $changed = 0
+
+$clothingcount = 0.00
+
 
 
   Spreadsheet.client_encoding = 'UTF-8'
@@ -145,7 +186,9 @@ def getrandom
 
   randomplayer2
 
-  randomplayer3
+  randomplayer3 
+
+  checktotalclothing
 
   checkclothing
 
@@ -167,11 +210,15 @@ def checkclothing
 
   player      = ' ' 
 
+  options     = 5
 
+  
+
+  
 
  if $items >0
 
-   if ($itemsfactor * $nplayers) < $items
+   if ($itemsfactor * $nplayers) < $items 
 
     loop do
 
@@ -189,9 +236,41 @@ def checkclothing
 
        end
 
-        if loopcount > 50
+        if loopcount > 10
+
+          options = rand(0..options)
+
+          case options
+
+          when 0
 
          $instr = player + " remove an item of clothing"
+
+          when 1
+
+            $instr = player + " first player of oposite sex to your right to help you remove item of clothing" 
+
+          when 2
+
+            $instr = player + " remove an item of clothing"
+
+          when 3
+
+            $instr = player + " choose a player to remove item of your clothing of YOUR choice" 
+
+          when 4
+
+            $instr = player + " choose a player to remove item of your clothing of THEIR choice"
+
+          when 5
+
+            $instr = player + " players will vote to determine who will remove an item of your clothing" 
+
+          else
+
+            $instr = player + " players will vote to determine who will remove an item of your clothing" 
+
+          end 
 
          $allplayers[playercount][3] = $allplayers[playercount][3] - 1
 
@@ -205,9 +284,49 @@ def checkclothing
 
    end
 
- end
+  
 
- $itemsfactor = $itemsfactor - 0.1
+ $itemsfactor = $itemsfactor - 0.06
+
+end
+
+end
+
+
+
+def checktotalclothing
+
+  nothing       = 0
+
+  $clothingcount = ($items / $nplayers)
+
+
+
+  if $clothingcount >= 4
+
+    $instr = "Everyone remove two items of clothing" 
+
+    $items = $items - $nplayers * 2
+
+    $itemsfactor = $itemsfactor - 1.6
+
+    redirect '/play'
+
+  else  
+
+     if $clothingcount >= 3
+
+    $instr = "Everyone to remove an item of clothing" 
+
+    $items = $items - $nplayers
+
+    $itemsfactor = $itemsfactor - 0.8
+
+    redirect '/play'
+
+   end
+
+  end
 
 end
 
