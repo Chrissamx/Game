@@ -2,77 +2,41 @@ require 'sinatra'
 require 'spreadsheet'
 
 $allplayers =Array.new(20) {Array.new(4)}
-
 $instructions =Array.new(100) {Array.new(11)}
-
 $nplayers = 0
-
 $items = 0
-
 $clothing = 0
-
 $fstr  = 0
-
 $fbi   = 0
-
 $mstr  = 0
-
 $mbi   = 0
-
 $fplay = 0
-
 $mplay = 0
-
 $randplayer2 = 0
-
 $randplayer1 = 0
-
 $randplayer3 = 0
-
 $lastplayer = 99
-
 $randinstr = 0
-
 $instr = " "
-
 $itemsstr = " "
-
 $fplays = " "
-
 $randname =" "
-
 $goodplayer = false
-
 $start = 'yes'
-
 $counter = 0
-
 $row = 0
-
 $coll = 0
-
 $itemsfactor = 4
-
 $mostitems = 0
-
 $range = 10
-
 $rangestart = 1
-
 $space = " "
-
 $numbercheck = "  "
-
 $nmales = 0
-
 $fmales = 0
-
 $check3 = 'no'
-
 $instr3 = ' '
-
 $changed = 0
-
 
 
   Spreadsheet.client_encoding = 'UTF-8'
