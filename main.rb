@@ -651,14 +651,19 @@ __END__
 <html lang="en">
 
 <head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <h1><title>Ice Breaker</title></h1>
 
-  <meta charset="utf-8">
+  <title>Ice Breaker</title>
+  <style>
+h1 {font-size: 60px;}
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
 
-  <link href="main.css" rel="stylesheet">
-
-  <script src="main.js" type="module" ></script>
+</style>
 
 </head>
 
@@ -666,13 +671,12 @@ __END__
 
 <body style="background-color:powderblue;">
 
-  <h1><p align="center" >Ice Breaker</p></h1>
+  <p><h1><b>Ice Breaker</b></h1></p>
 
     <nav>
 
-      <h1><p align="center"><a href="/game" title="Game" align="center" style="font-size: 32px;">game</a></p></h1>
+      <p><h1><a href="/game" title="Game" >game</a></h1></p>
 
-        </ul>
 
         </nav>
 
