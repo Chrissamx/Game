@@ -658,6 +658,8 @@ __END__
 
   <link href="main.css" rel="stylesheet">
 
+  <script src="main.js" type="module" ></script>
+
 </head>
 
 
