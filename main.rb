@@ -652,7 +652,7 @@ __END__
 
 <head>
 
-  <title>Ice Breaker</title>
+  <h1><title>Ice Breaker</title></h1>
 
   <meta charset="utf-8">
 
@@ -673,8 +673,6 @@ __END__
         </ul>
 
         </nav>
-
-      </header>
 
       <section>
 
