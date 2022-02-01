@@ -1,8 +1,10 @@
 require 'sinatra'
 require 'spreadsheet'
 
+
 $allplayers =Array.new(20) {Array.new(4)}
-$instructions =Array.new(100) {Array.new(11)}
+$instructions =Array.new(200) {Array.new(11)}
+$myArray =Array.new(2)
 $nplayers = 0
 $items = 0
 $clothing = 0
@@ -38,6 +40,7 @@ $check3 = 'no'
 $instr3 = ' '
 $changed = 0
 $clothingcount = 0.00
+$myArray[1] ='X'
 
   Spreadsheet.client_encoding = 'UTF-8'
   book = Spreadsheet.open 'instr.xls'
@@ -47,7 +50,7 @@ $clothingcount = 0.00
     loop do
       sheet.rows[$counter][9] = "Y"
       $counter = $counter + 1
-      if $counter > 99
+      if $counter > 105
         book.write 'instr.xls'
         $start = 'No'
         $counter = 0
@@ -65,10 +68,18 @@ loop do
     break
    end
   end
+
   $row = $row + 1
- if $row > 99
+ if $row > 105
    break
  end
+end
+
+def splits
+  $myArray = $instr.split("//")
+  if $myArray[0] == $instr
+    $myArray[1] = "X"
+  end
 end
 
 def addplayer
@@ -78,7 +89,6 @@ def addplayer
   $items      = $items + $itemsstr.to_i
   $nplayers   = $nplayers + 1 
   $itemfactor = $items / $nplayers
-
   if params[:Sex] == "M"
     $nmales     = $nmales + 1
   end
@@ -88,16 +98,7 @@ def addplayer
   redirect '/game'
 end
 
-def getrandom
-  check3
-  randomplayer1  
-  randominstr
-  randomplayer2
-  randomplayer3 
-  checktotalclothing
-  checkclothing
-  redirect '/play'
-end
+
 
 def checkclothing
   $mostitems  = 0
@@ -154,44 +155,46 @@ def checktotalclothing
     $instr = "Everyone remove two items of clothing" 
     $items = $items - $nplayers * 2
     $itemsfactor = $itemsfactor - 1.6
+    splits
     redirect '/play'
   else  
      if $clothingcount >= 3
     $instr = "Everyone to remove an item of clothing" 
     $items = $items - $nplayers
     $itemsfactor = $itemsfactor - 0.8
+    splits
     redirect '/play'
    end
   end
 end
 
-def check3
-  $changed = 0
+def check4
+  row = 1
+  if $nmales >= 2
+    if $fmales >= 2
+      $check3 = "check3"
+    end
+  end
+
   if $check3 != "check3"
-    $row = 1
-    if $nmales >= 2
-     if  $fmales >= 2
-         $check3 = "check3"
-      end  
+    loop do
+       if $instructions[row][3]  == 3
+          $instructions[row][9]  = 'X'
+          $changed = $changed + 1
+        end
+        row = row + 1
+        if row > 105
+          break
+        end
     end
-   loop do
-     if $instructions[$row][3] == 3
-        $instructions[$row][9] = 'X'
-        $changed = $changed + 1
-     end
-     $row = $row + 1
-    if $row > 90
-      break
-    end
-   end
- end
+  end
 end
 
 def randomplayer1
   loop do
    $randplayer1     = rand(0...$nplayers)
    if $randplayer1 != $lastplayer
-    $lastplayer     = $randplayer1
+      $lastplayer   = $randplayer1
      break
    end
   end
@@ -232,7 +235,6 @@ def randomplayer3
     if $randomplayer3 != $randplayer1
         counter = 1
     end
-
     if $randplayer3  != $randplayer2
         counter = counter + 1
     end
@@ -250,40 +252,61 @@ def randomplayer3
         end
       end
    end
-   end
+  end
  end
+end
+
+def splitinst
+  if $myArray[1] != "X"
+     $myArray[0]  = $myArray[1]
+     $myArray[1]  = "X"
+    redirect '/play'
+  end
 end
 
 def randominstr
   loop do
-  $randinstr = rand($rangestart..$range)
-  $instr3 = $instructions[$randinstr][3]
-  $instr = $instructions[$randinstr][10]
-  if $allplayers [$randplayer1][1] == 'F'
-    if $instructions[$randinstr][5] != 'M'
-     if $instructions[$randinstr][9] == 'Y'
-         $instructions[$randinstr][9] = "X"
-         if $range < 90
-          $range = $range + 1
-          $rangestart = $rangestart 
+      $randinstr = rand($rangestart..$range)
+      $instr3 = $instructions[$randinstr][3]
+      $instr = $instructions[$randinstr][10]
+      if $allplayers [$randplayer1][1]   == 'F'
+       if $instructions[$randinstr][5]   != 'M'
+         if $instructions[$randinstr][9]  == 'Y'
+           $instructions[$randinstr][9]   = "X"
+           if $range < 105
+             $range = $range + 1
+             $rangestart = $rangestart 
+           end
+           break
          end
-         break
+       end
      end
-    end
-  end
-  if $allplayers [$randplayer1][1] == 'M'
-    if $instructions[$randinstr][5] != 'F'
-     if $instructions[$randinstr][9] == 'Y'
-         $instructions[$randinstr][9] = "X"
-         if $range < 90
-         $range = $range + 2
-         $rangestart = $rangestart + 1
+     if $allplayers [$randplayer1][1] == 'M'
+       if $instructions[$randinstr][5] != 'F'
+         if $instructions[$randinstr][9] == 'Y'
+           $instructions[$randinstr][9] = "X"
+           if $range < 105
+             $range = $range + 1
+             $rangestart = $rangestart
+           end
+           break
          end
-         break
+       end
      end
-    end
-  end
-end
+   end
+ end
+
+def getrandom
+  splitinst
+  check4
+  randomplayer1  
+  randominstr
+  randomplayer2
+  randomplayer3 
+  checktotalclothing
+  checkclothing
+  splits
+  redirect '/play'
 end
 
 def exitprog
@@ -319,18 +342,15 @@ end
 get '/exit' do
   exitprog
 end
-
 __END__
 
 @@home
 <!doctype html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Ice Breaker</title>
   <style>
 h1 {font-size: 60px;}
@@ -338,9 +358,7 @@ h1 {text-align: center;}
 p {text-align: center;}
 div {text-align: center;}
 </style>
-
 </head>
-
 <body style="background-color:powderblue;">
   <p><h1><b>Ice Breaker</b></h1></p>
     <nav>
