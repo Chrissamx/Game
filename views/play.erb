@@ -1,7 +1,12 @@
 
-<% $instr.gsub!("PlayerA", $allplayers[$randplayer1][0]) %>
-<% $instr.gsub!("PlayerB", $allplayers[$randplayer2][0]) %>
-<% $instr.gsub!("PlayerC", $allplayers[$randplayer3][0]) %>
+<% $myArray[0].gsub!("PlayerA", $allplayers[$randplayer1][0]) %>
+<% $myArray[0].gsub!("PlayerB", $allplayers[$randplayer2][0]) %>
+<% $myArray[0].gsub!("PlayerC", $allplayers[$randplayer3][0]) %><p>
+if [$myArray[1]] != "X"
+ <% $myArray[1].gsub!("PlayerA", $allplayers[$randplayer1][0]) %>
+ <% $myArray[1].gsub!("PlayerB", $allplayers[$randplayer2][0]) %>
+ <% $myArray[1].gsub!("PlayerC", $allplayers[$randplayer3][0]) %><p>
+end
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,21 +16,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="main.css" rel="stylesheet">
     <script src="main.js" type="module" ></script>
-
+   
     <title>Document</title>
 </head>
 
 <body style="background-color:powderblue;">
 
-<h1><p align="center"><%= $instr %></h></h1>
-
-
+<h1><p align="center"><%= $myArray[0] %></h></h1> 
 
 
 <h1><p align="center"><a href="/games"><button style="font-size: 32px;">Next Instruction</button></a></h1><p></p>
-
-
-
 
 <p align="center"><a href="/exit"><button style="font-size: 32px;">quit</button></a><p></p>
 
