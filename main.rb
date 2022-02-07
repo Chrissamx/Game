@@ -1,6 +1,11 @@
 require 'sinatra'
 require 'spreadsheet'
 
+use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  username == 'admin' and password == 'admin'
+end
+
+
 $allplayers =Array.new(20) {Array.new(4)}
 $instructions =Array.new(200) {Array.new(11)}
 $myArray =Array.new(2)
