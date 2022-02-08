@@ -745,6 +745,8 @@ div {text-align: center;}
 
       <section>
 
+      <p align="center"><a href="/exit"><button style="font-size: 32px;">quit</button></a><p></p>
+
       </section>
 
     </body>
