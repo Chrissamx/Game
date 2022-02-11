@@ -258,6 +258,49 @@ def splitinst
   end
 end
 
+def timecheck 
+  if (($instructions[$randinstr][8]).to_i) == 1
+   redirect '/play'
+  end
+end
+
+def players
+  if $nmales < 1
+    redirect '/game'
+  end
+  if $fmales < 1
+    redirect '/game'
+  end
+  if $nmales == 1
+    $row = 1
+    loop do
+     if (($instructions[$row][3]).to_i) == 3
+       if ($instructions[$row][5])       == 'F'
+         $instructions[$row][9]           = 'X'
+        end
+     end
+        $row = $row + 1
+        if $row > 110
+          break
+       end
+    end
+  end
+  if $fmales == 1
+    $row = 1
+    loop do
+     if (($instructions[$row][3]).to_i) == 3
+      if ($instructions[$row][5])       == 'M'
+        $instructions[$row][9]           = 'X'
+      end
+    end
+    $row = $row + 1
+    if $row > 110
+      break
+    end
+  end
+end
+end
+
 def randominstr
   loop do
       $randinstr = rand($rangestart..$range)
