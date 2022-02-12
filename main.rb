@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'spreadsheet'
-
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
   username == 'admin' and password == 'admin'
 end
@@ -33,7 +32,7 @@ $row = 0
 $coll = 0
 $itemsfactor = 4.000
 $mostitems = 0
-$range = 5
+$range = 10
 $rangestart = 1
 $space = " "
 $numbercheck = "  "
@@ -44,6 +43,9 @@ $instr3 = ' '
 $changed = 0
 $clothingcount = 0.00
 $myArray[1] ='X'
+$minstr = 0
+$finstr = 0
+$Totalplays = 0
 
   Spreadsheet.client_encoding = 'UTF-8'
   book = Spreadsheet.open 'instr.xls'
@@ -52,10 +54,9 @@ $myArray[1] ='X'
     loop do
       sheet.rows[$counter][9] = "Y"
       $counter = $counter + 1
-      if $counter > 110
+      if sheet.rows[$counter][0] =="END"
         book.write 'instr.xls'
-        $start = 'No'
-        $counter = 0
+        $start = 'No'      
         break
       end
     end
@@ -71,7 +72,7 @@ loop do
    end
   end
   $row = $row + 1
- if $row > 110
+ if $row == $counter
    break
  end
 end
@@ -106,7 +107,6 @@ def checkclothing
   playercount = 0
   player      = ' ' 
   options     = 5
-
  if $items >0
    if ($itemsfactor * $nplayers) < $items 
     loop do
@@ -118,10 +118,10 @@ def checkclothing
          playercount = count
        end
         if loopcount > 10
-          options = rand(0..options)
+          options  = rand(0..options)
           case options
           when 0
-         $instr = player + " remove an item of clothing"
+         $instr    = player + " remove an item of clothing"
           when 1
             $instr = player + " first player of oposite sex to your right to help you remove item of clothing" 
           when 2
@@ -136,12 +136,13 @@ def checkclothing
             $instr = player + " players will vote to determine who will remove an item of your clothing" 
           end 
          $allplayers[playercount][3] = $allplayers[playercount][3] - 1
-         $items = $items - 1
+         $items    = $items - 1
+         $instructions[$randinstr][9] = "Y"
          break
        end     
     end
    end
- $itemsfactor = $itemsfactor - 0.06
+ $itemsfactor      = $itemsfactor - 0.06
 end
 end
 
@@ -152,6 +153,8 @@ def checktotalclothing
     $instr = "Everyone remove two items of clothing" 
     $items = $items - $nplayers * 2
     $itemsfactor = $itemsfactor - 1.6
+    $instructions[$randinstr][9] = "Y"
+    $Totalplays = $Totalplays - 1
     splits
     redirect '/play'
   else  
@@ -159,6 +162,8 @@ def checktotalclothing
     $instr = "Everyone to remove an item of clothing" 
     $items = $items - $nplayers
     $itemsfactor = $itemsfactor - 0.8
+    $instructions[$randinstr][9] = "Y"
+    $Totalplays = $Totalplays - 1
     splits
     redirect '/play'
    end
@@ -179,7 +184,7 @@ def check4
           $changed = $changed + 1
         end
         row = row + 1
-        if row > 110
+        if row == $counter
           break
         end
     end
@@ -224,23 +229,23 @@ def randomplayer2
 end
 
 def randomplayer3
-  if $check3 == "check3"
+  if (($instructions[$randinstr][3]).to_i) == 3
   loop do
-    counter = 0
-    $randplayer3     = rand(0...$nplayers)
+    counter            = 0
+    $randplayer3       = rand(0...$nplayers)
     if $randomplayer3 != $randplayer1
-        counter = 1
+        counter        = 1
     end
-    if $randplayer3  != $randplayer2
-        counter = counter + 1
+    if $randplayer3   != $randplayer2
+        counter        = counter + 1
     end
-    if counter == 2
-      if $allplayers [$randplayer1][1] == 'F'
+    if counter         == 2
+      if $allplayers [$randplayer1][1]   == 'F'
         if $allplayers [$randplayer3][1] == 'M'
            break
         end
       end
-      if $allplayers [$randplayer1][1] == 'M'
+      if $allplayers [$randplayer1][1]   == 'M'
         if $allplayers [$randplayer3][1] == 'F'
            break
         end
@@ -272,33 +277,35 @@ def players
     redirect '/game'
   end
   if $nmales == 1
-    $row = 1
+    $row      = 1
     loop do
-     if (($instructions[$row][3]).to_i) == 3
-       if ($instructions[$row][5])       == 'F'
-         $instructions[$row][9]           = 'X'
-        end
-     end
-        $row = $row + 1
-        if $row > 110
-          break
+       if (($instructions[$row][3]).to_i)  == 3
+         if ($instructions[$row][5])       == 'F'
+           $instructions[$row][9]           = 'X'
+           $minstr = $minstr + 1
+         end
        end
+        $row = $row + 1
+        if $row == $counter
+          break
+        end
     end
   end
   if $fmales == 1
-    $row = 1
+    $row      = 1
     loop do
-     if (($instructions[$row][3]).to_i) == 3
-      if ($instructions[$row][5])       == 'M'
-        $instructions[$row][9]           = 'X'
+     if (($instructions[$row][3]).to_i)   == 3
+      if ($instructions[$row][5])         == 'M'
+        $instructions[$row][9]             = 'X'
+        $finstr = $finstr + 1
       end
     end
     $row = $row + 1
-    if $row > 110
+    if $row == $counter
       break
     end
   end
-end
+ end
 end
 
 def randominstr
@@ -310,10 +317,11 @@ def randominstr
        if $instructions[$randinstr][5]   != 'M'
          if $instructions[$randinstr][9]  == 'Y'
            $instructions[$randinstr][9]   = "X"
-           if $range < 110
+           if $range != $counter
              $range = $range + 1
              $rangestart = $rangestart 
            end
+           $Totalplays = $Totalplays + 1
            break
          end
        end
@@ -322,10 +330,11 @@ def randominstr
        if $instructions[$randinstr][5] != 'F'
          if $instructions[$randinstr][9] == 'Y'
            $instructions[$randinstr][9] = "X"
-           if $range < 110
+           if $range != $counter
              $range = $range + 1
              $rangestart = $rangestart
            end
+           $Totalplays = $Totalplays + 1
            break
          end
        end
@@ -335,7 +344,6 @@ def randominstr
 
 def getrandom
   splitinst
-  check4
   randomplayer1  
   randominstr
   randomplayer2
@@ -368,11 +376,13 @@ get '/game' do
 end
 
 get '/games' do 
+  players
   getrandom
   erb :games
 end
 
 get '/timer' do
+  timecheck
   erb :timer
 end
 
