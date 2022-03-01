@@ -16,7 +16,7 @@
 
 <h1><p align="center"><a href="/games"><button style="font-size: 32px;">Next Instruction</button></a></h1><p></p>
 
-
+<% $timeseconds = ($instructions[$randinstr][8]).to_i %>
 <script>
 
 // Credit: Mateusz Rybczonec
@@ -41,7 +41,7 @@ const COLOR_CODES = {
 
 };
 
-const TIME_LIMIT = <%= ($instructions[$randinstr][8]).to_i %> ;
+const TIME_LIMIT = <%= $timeseconds %> ;
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
 let timerInterval = null;
