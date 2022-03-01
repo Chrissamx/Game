@@ -49,6 +49,7 @@ $donecount    = 0
 $plus         = 1.6
 $rows         = 0
 $checkzero    = 0
+$timeseconds  = 0
 
   Spreadsheet.client_encoding = 'UTF-8'
   book = Spreadsheet.open 'instr.xls'
@@ -84,6 +85,9 @@ def splits
   $myArray        = $instr.split("//")
   if $myArray[0] == $instr
     $myArray[1]   = "X"
+    $timeseconds  = ($instructions[$randinstr][8]).to_i 
+  else
+    $timeseconds  = 0
   end
 end
 
@@ -264,6 +268,7 @@ def splitinst
   if $myArray[1] != "X"
      $myArray[0]  = $myArray[1]
      $myArray[1]  = "X"
+     $timeseconds = ($instructions[$randinstr][8]).to_i 
     redirect '/play'
   end
 end
@@ -334,9 +339,9 @@ def randominstr
              $range      = $range + $plus
              $rangestart = $rangestart 
            else
-            $range = $counter
+            $range       = $counter
            end
-           $Totalplays = $Totalplays + 1
+           $Totalplays   = $Totalplays + 1
            break
          end
        end
@@ -345,13 +350,13 @@ def randominstr
        if $instructions[$randinstr][5]    != 'F'
          if $instructions[$randinstr][9]  == 'Y'
            $instructions[$randinstr][9]    = 'X'
-           if $range < $counter
-             $range = $range + $plus
+           if $range     < $counter
+             $range      = $range + $plus
              $rangestart = $rangestart + 1
            else
-            $range = $counter
+            $range       = $counter
            end
-           $Totalplays = $Totalplays + 1
+           $Totalplays   = $Totalplays + 1
            break
          end
        end
@@ -372,6 +377,7 @@ def getrandom
 end
 
 def exitprog
+  exit!
   load "main.rb"
 end
 
