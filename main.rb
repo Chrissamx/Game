@@ -377,7 +377,6 @@ def getrandom
 end
 
 def exitprog
-  exit!
   load "main.rb"
 end
 
