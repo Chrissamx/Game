@@ -145,6 +145,8 @@ def checkclothing
           end 
          $allplayers[playercount][3] = $allplayers[playercount][3] - 1
          $items    = $items - 1
+         $timeseconds = 0
+         $instructions[$randinstr][8] = 0
          $instructions[$randinstr][9] = "Y"
          if $items <= 0
           itemszero
