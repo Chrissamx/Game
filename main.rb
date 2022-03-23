@@ -417,6 +417,10 @@ get '/exit' do
   exitprog
 end
 
+get '/instructions' do
+  erb :instructions
+end
+
 __END__
 
 @@home
@@ -438,10 +442,12 @@ div {text-align: center;}
 <body style="background-color:powderblue;">
   <p><h1><b>Ice Breaker</b></h1></p>
     <nav>
-      <p><h1><a href="/game" title="Game" >game</a></h1></p>
+      <p><h1><a href="/game" title="Game" >Play game</a></h1></p>
         </nav>
       <section>
       <p align="center"><a href="/exit"><button style="font-size: 32px;">quit</button></a><p></p>
+   
+      <p align="center"><a href="/instructions"><button style="font-size: 32px;">Instructions</button></a><p></p>
       </section>
     </body>
     </html>     
