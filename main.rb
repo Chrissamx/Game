@@ -129,24 +129,23 @@ def checkclothing
           options  = rand(0..options)
           case options
           when 0
-         $instr    = player + " remove an item of clothing"
+         $instr    = player + " remove an item of clothing."
           when 1
-            $instr = player + " first player of oposite sex to your right to help you remove item of clothing" 
+            $instr = player + " first player of oposite sex to your right to help you remove item of clothing." 
           when 2
-            $instr = player + " remove an item of clothing"
+            $instr = player + " remove an item of clothing."
           when 3
-            $instr = player + " choose a player to remove item of your clothing of YOUR choice" 
+            $instr = player + " choose a player to remove item of your clothing of YOUR choice." 
           when 4
-            $instr = player + " choose a player to remove item of your clothing of THEIR choice"
+            $instr = player + " choose a player to remove item of your clothing of THEIR choice."
           when 5
-            $instr = player + " players will vote to determine who will remove an item of your clothing" 
+            $instr = player + " players will vote to determine who will remove an item of your clothing." 
           else
-            $instr = player + " players will vote to determine who will remove an item of your clothing" 
+            $instr = player + " players will vote to determine who will remove an item of your clothing." 
           end 
          $allplayers[playercount][3] = $allplayers[playercount][3] - 1
          $items    = $items - 1
          $timeseconds = 0
-         $instructions[$randinstr][8] = 0
          $instructions[$randinstr][9] = "Y"
          if $items <= 0
           itemszero
